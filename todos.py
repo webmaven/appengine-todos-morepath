@@ -31,7 +31,7 @@ class Todo(ndb.Model):
     """
 
     title = ndb.StringProperty(default='', indexed=False)
-    done = ndb.BooleanProperty(default=False)
+    completed = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
 
