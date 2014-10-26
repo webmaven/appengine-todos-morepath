@@ -10,6 +10,9 @@ And a set of common operations for managing them:
 - TodoList.update_todo   # update an existing todo in the list.
 - TodoList.get_all_todos # get all todos from the list.
 - TodoList.archive_todos # archive all done todos from the list.
+- Todo.get # get the todo.
+- Todo.update # update an existing todo.
+- Todo.delete # delete the todo.
 """
 
 from google.appengine.ext import ndb
@@ -22,12 +25,12 @@ class Todo(ndb.Model):
 
     - a `text` string property: limited to 500 characters that default
       to empty string and is not indexed.
-    - a `done` boolean property: that default to False and is indexed.
+      - a `done` boolean property: that default to False and is indexed.
     - a `created` date time property: that default to the current time
     at the time of the creation of the entity and is indexed.
     """
 
-    text = ndb.StringProperty(default='', indexed=False)
+    title = ndb.StringProperty(default='', indexed=False)
     done = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
@@ -59,11 +62,11 @@ class TodoList(ndb.Model):
         """Create a new Todo entity in the Todo list.
 
         Construct a new Todo model with the `text` property set to the
-        given `todo_txt` string, and its parent set to the current
+        given `text` string, and its parent set to the current
         todo list.
 
         Use the `put()` method to send a mutation to the datastore
-        service that transactionaly insert the new entity: a numeric
+        service to transactionaly insert the new entity: a numeric
         id is auto-allocated by the service for the new entity.
 
         Because the all Todos of a given TodoList list belong to the
@@ -71,7 +74,7 @@ class TodoList(ndb.Model):
         insert that can be sent per second.
         """
 
-        todo = Todo(text=text, parent=self.key)
+        todo = Todo(title=title, parent=self.key)
         todo.put()
         return todo
 
@@ -90,7 +93,7 @@ class TodoList(ndb.Model):
         insert that can be sent per second.
         """
 
-        todo = Todo(id=id, text=text, done=done, parent=self.key)
+        todo = Todo(id=id, title=title, done=done, parent=self.key)
         todo.put()
         return todo
 

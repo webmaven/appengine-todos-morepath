@@ -54,7 +54,7 @@ def get_all_todos(self, request):
 
 @app.json(model=TodoList, request_method='POST')
 def add_todo(self, request):
-    return self.add_todo(request.text)
+    return self.add_todo(request.title)
 
 @app.json(model=TodoList, request_method='PUT')
 def archive_todos(self, request):
@@ -64,6 +64,16 @@ def archive_todos(self, request):
 def add_todo(self, request):
     return self.archive_todos()
 
+
+@app.path(model=Todo, path='/todos/{id}')
+def get_todo(id):
+    return Todo.query(id=id)
+
+@app.json(model=Todo)
+def todo_data(self, request):
+    return self
+
+#@app.
 
 @app.view(model=HTTPNotFound)
 def notfound_custom(self, request):
