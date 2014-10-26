@@ -48,7 +48,7 @@ alltodos = TodoList.get_or_create('default')
 def get_list(request):
     return alltodos
 
-@app.json(model=TodoList)
+@app.json(model=TodoList, request_method='GET')
 def get_all_todos(self, request):
     return self.get_all_todos()
 
@@ -58,20 +58,20 @@ def add_todo(self, request):
 
 @app.json(model=TodoList, request_method='PUT')
 def archive_todos(self, request):
-    return self.update_todo(request.id, request.text, request.done)
+    return self.update_todo(request.id, request.text, request.completed)
 
 @app.json(model=TodoList, request_method='DELETE')
 def add_todo(self, request):
     return self.archive_todos()
 
 
-@app.path(model=Todo, path='/todos/{id}')
-def get_todo(id):
-    return Todo.query(id=id)
+#@app.path(model=Todo, path='/todos/{id}')
+#def get_todo(id):
+    #return Todo.query(id=id)
 
-@app.json(model=Todo)
-def todo_data(self, request):
-    return self
+#@app.json(model=Todo)
+#def todo_data(self, request):
+    #return self
 
 #@app.
 
