@@ -4,11 +4,11 @@
 import morepath
 from webob.exc import HTTPNotFound, HTTPInternalServerError
 
-from todos import TodoList
+from todos import TodoList, Todo
 
-"""Todo Flask backend demo.
+"""Todo Morepath backend demo.
 
-This is a sample Flask JSON backend for a todo app.
+This is a sample Morepath JSON backend for a todo app.
 
 It support the following methods:
 - Create a new todo
@@ -31,35 +31,38 @@ DELETE /todos
 < [2]
 """
 
-app = morepath.App(name='Hello')
-# Note: We don't need to call run() since our application is embedded within
-# the App Engine WSGI application server.
+app = morepath.App(name='Todos')
 
 @app.path('')
 class Root(object):
     pass
 
-@app.view(model=Root)
+@app.html(model=Root)
 def hello_world(self, request):
     """Return a friendly HTTP greeting."""
-    return 'Hello World!'
+    return '<p><a href="/todos/">/todos</a></p>'
 
-@app.path(model=TodoList, path='/todo')
-def get_list(todo_list_name):
-    return TodoList.get_or_create('default')
+alltodos = TodoList.get_or_create('default')
 
-#@app.json(model=TodoList)
-#def get_todos(self, request):
-    #print self
-    #todo_list =  self.get_all_todos()
-    #print todo_list
-    #return todo_list
-    ##return {
-        ##'id': self.key.id(),
-        ##'text': self.text,
-        ##'done': self.done,
-        ##'created': self.created.isoformat()
-            ##}
+@app.path(model=TodoList, path='/todos')
+def get_list(request):
+    return alltodos
+
+@app.json(model=TodoList)
+def get_all_todos(self, request):
+    return self.get_all_todos()
+
+@app.json(model=TodoList, request_method='POST')
+def add_todo(self, request):
+    return self.add_todo(request.text)
+
+@app.json(model=TodoList, request_method='PUT')
+def archive_todos(self, request):
+    return self.update_todo(request.id, request.text, request.done)
+
+@app.json(model=TodoList, request_method='DELETE')
+def add_todo(self, request):
+    return self.archive_todos()
 
 
 @app.view(model=HTTPNotFound)
