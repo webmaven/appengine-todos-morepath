@@ -54,9 +54,9 @@ def get_all_todos(self, request):
 
 @App.json(model=TodoList, request_method='POST')
 def add_todo(self, request):
-    #@request(after)
-    #def return_code(response):
-        #response.status_code = 204
+    @request.after
+    def return_code(response):
+        response.status_code = 201
     return self.add_todo(request.json['title'])
 
 @App.json(model=TodoList, request_method='PUT')

@@ -76,9 +76,13 @@ class TodoList(ndb.Model):
 
         todo = Todo(title=text, parent=self.key)
         todo.put()
-        return todo
+        return {
+                   "id": todo.key.id(),
+                   "title": todo.title,
+                   "completed": todo.completed
+               }
 
-    def update_todo(self, ID, text, done):
+    def update_todo(self, id, text, completed):
         """Update an existing Todo entity in the Todo list.
 
         Construct a new Todo model with the id set to the given
@@ -93,9 +97,13 @@ class TodoList(ndb.Model):
         insert that can be sent per second.
         """
 
-        todo = Todo(title=title, done=done, parent=self.key)
+        todo = Todo(id=id, title=text, completed=completed, parent=self.key)
         todo.put()
-        return todo
+        return {
+                   "id": todo.key.id(),
+                   "title": todo.title,
+                   "completed": todo.completed
+               }
 
     def get_all_todos(self):
         """Query for all Todo items of the Todo list ordered by creation date.
@@ -104,8 +112,16 @@ class TodoList(ndb.Model):
         to the entity group containing all the Todos of the TodoList,
         it returns strongly consistent result.
         """
-
-        return Todo.query(ancestor=self.key).fetch()
+        all_todos = []
+        for todo in Todo.query(ancestor=self.key).fetch():
+            all_todos.append(
+                {
+                    "id": todo.key.id(),
+                    "title": todo.title,
+                    "completed": todo.completed
+                }
+            )
+        return all_todos
 
     @ndb.transactional
     def archive_todos(self):
