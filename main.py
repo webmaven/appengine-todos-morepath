@@ -61,12 +61,15 @@ def add_todo(self, request):
 
 @App.json(model=TodoList, request_method='PUT')
 def archive_todos(self, request):
-    return self.update_todo(request.json['ID'],
+    return self.update_todo(request.json['id'],
                             request.json['text'],
                             request.json['completed'])
 
-@App.json(model=TodoList, request_method='DELETE')
+@App.view(model=TodoList, request_method='DELETE')
 def delete_todo(self, request):
+    @request.after
+    def return_code(response):
+        response.status_code = 204
     return self.archive_todos()
 
 

@@ -144,6 +144,6 @@ class TodoList(ndb.Model):
           to the same TodoList entity group.
         """
 
-        keys = Todo.query(Todo.done == True,
+        keys = Todo.query(Todo.completed == True,
                           ancestor=self.key).fetch(keys_only=True)
         ndb.delete_multi(keys)
