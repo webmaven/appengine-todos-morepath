@@ -31,37 +31,42 @@ DELETE /todos
 < [2]
 """
 
-app = morepath.App(name='Todos')
+class App(morepath.App):
+    pass
 
-@app.path('')
+
+@App.path('')
 class Root(object):
     pass
 
-@app.html(model=Root)
+@App.html(model=Root)
 def hello_world(self, request):
     """Return a friendly HTTP greeting."""
     return '<p><a href="/todos/">/todos</a></p>'
 
-alltodos = TodoList.get_or_create('default')
+@App.path(model=TodoList, path='/{todolist}')
+def get_list(todolist, request):
+    return TodoList.get_or_create(todolist)
 
-@app.path(model=TodoList, path='/todos')
-def get_list(request):
-    return alltodos
-
-@app.json(model=TodoList, request_method='GET')
+@App.json(model=TodoList, request_method='GET')
 def get_all_todos(self, request):
     return self.get_all_todos()
 
-@app.json(model=TodoList, request_method='POST')
+@App.json(model=TodoList, request_method='POST')
 def add_todo(self, request):
-    return self.add_todo(request.title)
+    #@request(after)
+    #def return_code(response):
+        #response.status_code = 204
+    return self.add_todo(request.json['title'])
 
-@app.json(model=TodoList, request_method='PUT')
+@App.json(model=TodoList, request_method='PUT')
 def archive_todos(self, request):
-    return self.update_todo(request.id, request.text, request.completed)
+    return self.update_todo(request.json['ID'],
+                            request.json['text'],
+                            request.json['completed'])
 
-@app.json(model=TodoList, request_method='DELETE')
-def add_todo(self, request):
+@App.json(model=TodoList, request_method='DELETE')
+def delete_todo(self, request):
     return self.archive_todos()
 
 
@@ -75,7 +80,7 @@ def add_todo(self, request):
 
 #@app.
 
-@app.view(model=HTTPNotFound)
+@App.view(model=HTTPNotFound)
 def notfound_custom(self, request):
     """Return a custom 404 error"""
     def set_status_code(response):
@@ -84,13 +89,14 @@ def notfound_custom(self, request):
     return "Sorry, Nothing at this URL."
 
 
-@app.view(model=HTTPInternalServerError)
+@App.view(model=HTTPInternalServerError)
 def servererror_custom(self, request):
     def set_status_code(response):
         response.status = self.code  # pass along 500
     request.after(set_status_code)
     return "Sorry, unexpected error: {}".format(self.detail)
 
+app = App(name='Todos')
 config = morepath.setup()
 config.scan()
 config.commit()

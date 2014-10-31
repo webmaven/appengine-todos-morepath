@@ -74,11 +74,11 @@ class TodoList(ndb.Model):
         insert that can be sent per second.
         """
 
-        todo = Todo(title=title, parent=self.key)
+        todo = Todo(title=text, parent=self.key)
         todo.put()
         return todo
 
-    def update_todo(self, id, text, done):
+    def update_todo(self, ID, text, done):
         """Update an existing Todo entity in the Todo list.
 
         Construct a new Todo model with the id set to the given
@@ -93,7 +93,7 @@ class TodoList(ndb.Model):
         insert that can be sent per second.
         """
 
-        todo = Todo(id=id, title=title, done=done, parent=self.key)
+        todo = Todo(title=title, done=done, parent=self.key)
         todo.put()
         return todo
 
