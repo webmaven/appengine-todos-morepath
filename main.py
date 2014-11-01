@@ -66,22 +66,34 @@ def archive_todos(self, request):
                             request.json['completed'])
 
 @App.view(model=TodoList, request_method='DELETE')
-def delete_todo(self, request):
+def delete_todos(self, request):
     @request.after
     def return_code(response):
         response.status_code = 204
     return self.archive_todos()
 
 
-#@app.path(model=Todo, path='/todos/{id}')
-#def get_todo(id):
-    #return Todo.query(id=id)
+@App.path(model=Todo, path='/{todolist}/{id}')
+def get_list_todo(todolist, id, request):
+    return Todo.get_todo_object(todolist, id)
 
-#@app.json(model=Todo)
-#def todo_data(self, request):
-    #return self
+@App.json(model=Todo, request_method='GET')
+def get_todo(self, request):
+    return self.get_todo()
 
-#@app.
+@App.json(model=Todo, request_method='PUT')
+def put_todo(self, request):
+    return self.update_todo(request.json['id'],
+                            request.json['text'],
+                            request.json['completed'])
+
+
+@App.json(model=Todo, request_method='DELETE')
+def delete_todo(self, request):
+    @request.after
+    def return_code(response):
+        response.status_code = 204
+    return self.delete_todo()
 
 @App.view(model=HTTPNotFound)
 def notfound_custom(self, request):

@@ -34,6 +34,29 @@ class Todo(ndb.Model):
     completed = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
+    @classmethod
+    def get_todo_object(cls, todolist, id):
+        todolist = TodoList.get_or_insert(todolist)
+        return Todo.get_by_id(id, parent=todolist.key)
+
+    def get_todo(self):
+        return {
+                   "id": self.key.id(),
+                   "title": self.title,
+                   "completed": self.completed
+               }
+
+    def update_todo(self, id, text, completed):
+        todo = Todo(id=id, title=text, completed=completed, parent=self.key)
+        todo.put()
+        return {
+                   "id": todo.key.id(),
+                   "title": todo.title,
+                   "completed": todo.completed
+               }
+
+    def delete_todo(self):
+        pass
 
 class TodoList(ndb.Model):
     """Todo list model.
