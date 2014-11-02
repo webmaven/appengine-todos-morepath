@@ -15,16 +15,16 @@ It support the following methods:
 POST /todos
 > {"text": "do this"}
 201 /todos/1
-< {"id": 1, "text": "do this", "created": 1356724843.0, "done": false}
+< {"id": 1, "text": "do this", "completed": false}
 - Update an existing todo
 PUT /todos/1
-> {"id": 1, "text": "do this", "created": 1356724843.0, "done": true}
-< {"id": 1, "text": "do this", "created": 1356724843.0, "done": true}
+> {"id": 1, "text": "do this", "completed": true}
+< {"id": 1, "text": "do this", "completed": true}
 - List existing todos:
 GET /todos
 >
-< [{"id": 1, "text": "do this", "created": 1356724843.0, "done": true},
-   {"id": 2, "text": "do that", "created": 1356724849.0, "done": false}]
+< [{"id": 1, "text": "do this", "completed": true},
+   {"id": 2, "text": "do that", "completed": false}]
 - Delete 'done' todos:
 DELETE /todos
 >
@@ -75,7 +75,7 @@ def delete_todos(self, request):
 
 @App.path(model=Todo, path='/{todolist}/{id}')
 def get_list_todo(todolist, id, request):
-    return Todo.get_todo_object(todolist, id)
+    return Todo.get_todo_object(todolist, int(id))
 
 @App.json(model=Todo, request_method='GET')
 def get_todo(self, request):

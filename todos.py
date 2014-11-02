@@ -35,8 +35,8 @@ class Todo(ndb.Model):
     created = ndb.DateTimeProperty(auto_now_add=True)
 
     @classmethod
-    def get_todo_object(cls, todolist, id):
-        todolist = TodoList.get_or_insert(todolist)
+    def get_todo_object(cls, name, id):
+        todolist = TodoList.get_or_insert(name)
         return Todo.get_by_id(id, parent=todolist.key)
 
     def get_todo(self):
@@ -56,7 +56,9 @@ class Todo(ndb.Model):
                }
 
     def delete_todo(self):
-        pass
+        deleted_id = self.key.id()
+        self.delete()
+        return deleted_id
 
 class TodoList(ndb.Model):
     """Todo list model.
