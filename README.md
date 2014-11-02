@@ -1,7 +1,7 @@
-## Python Morepath Skeleton for Google App Engine
+## Morepath implementation of the TodoMVC-API for Google App Engine
 
-A skeleton for building Python applications on Google App Engine with the
-[Morepath framework](http://morepath.readthedocs.org/).
+An implementation of the [TodoMVC-API](https://github.com/tastejs/todomvc-api) for Google
+App Engine using the [Morepath framework](http://morepath.readthedocs.org/).
 
 
 ## Run Locally
@@ -11,7 +11,7 @@ See the README file for directions. You'll need python 2.7 and [pip 1.4 or later
 2. Clone this repo with
 
    ```
-   git clone https://github.com/webmaven/appengine-python-morepath-skeleton.git
+   git clone https://github.com/webmaven/appengine-todos-morepath.git
    ```
 3. Install dependencies in the project's lib directory.
    Note: App Engine can only import libraries from inside your project directory.
@@ -25,8 +25,6 @@ See the README file for directions. You'll need python 2.7 and [pip 1.4 or later
    ```
    dev_appserver.py .
    ```
-
-Visit the application [http://localhost:8080](http://localhost:8080)
 
 See [the development server documentation](https://developers.google.com/appengine/docs/python/tools/devserver)
 for options when running dev_appserver.
@@ -42,25 +40,10 @@ To deploy the application:
    ```
    appcfg.py -A <your-project-id> --oauth2 update .
    ```
-1. Congratulations!  Your application is now live at your-app-id.appspot.com
+1. Congratulations!  Your API is now live at your-app-id.appspot.com
 
 ## Next Steps
-This skeleton includes `TODO` markers to help you find basic areas you will want
-to customize.
-
-### Relational Databases and Datastore
-To add persistence to your models, use
-[NDB](https://developers.google.com/appengine/docs/python/ndb/) for
-scale.  Consider
-[CloudSQL](https://developers.google.com/appengine/docs/python/cloud-sql)
-if you need a relational database.
-
-### Installing Libraries
-See the [Third party
-libraries](https://developers.google.com/appengine/docs/python/tools/libraries27)
-page for libraries that are already included in the SDK.  To include SDK
-libraries, add them in your app.yaml file. Other than libraries included in
-the SDK, only pure python libraries may be added to an App Engine project.
+You should be able to point a TodoMVC front end at this backend.
 
 ### Feedback
 Star this repo if you found it useful. Use the github issue tracker to give
