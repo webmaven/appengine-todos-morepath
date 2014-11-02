@@ -92,6 +92,7 @@ def delete_todo(self, request):
     @request.after
     def return_code(response):
         response.status_code = 204
+        response.content_type='text/plain'
     return self.delete_todo()
 
 @App.view(model=HTTPNotFound)
