@@ -46,8 +46,8 @@ class Todo(ndb.Model):
                    "completed": self.completed
                }
 
-    def update_todo(self, id, text, completed):
-        todo = Todo(id=id, title=text, completed=completed, parent=self.key)
+    def update_todo(self, text, completed):
+        todo = Todo(key=self.key, title=text, completed=completed)
         todo.put()
         return {
                    "id": todo.key.id(),
@@ -57,7 +57,7 @@ class Todo(ndb.Model):
 
     def delete_todo(self):
         deleted_id = self.key.id()
-        self.delete()
+        ndb.delete_multi([self.key])
         return deleted_id
 
 class TodoList(ndb.Model):

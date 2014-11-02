@@ -83,8 +83,7 @@ def get_todo(self, request):
 
 @App.json(model=Todo, request_method='PUT')
 def put_todo(self, request):
-    return self.update_todo(request.json['id'],
-                            request.json['text'],
+    return self.update_todo(request.json['title'],
                             request.json['completed'])
 
 
