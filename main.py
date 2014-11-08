@@ -33,5 +33,5 @@ class App(morepath.App):
 
 app = App(name='Todos')
 config = morepath.setup()
-config.scan()
 config.commit()
+
