@@ -1,5 +1,5 @@
 from main import App
-import model
+from . import model
 from webob.exc import HTTPNotFound, HTTPInternalServerError
 
 

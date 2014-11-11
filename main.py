@@ -32,6 +32,7 @@ class App(morepath.App):
     pass
 
 app = App(name='Todos')
+config.scan()
 config = morepath.setup()
 config.commit()
 
