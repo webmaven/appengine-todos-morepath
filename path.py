@@ -1,5 +1,5 @@
 from main import App
-from . import model
+import model
 
 @App.path('')
 class Root(object):
