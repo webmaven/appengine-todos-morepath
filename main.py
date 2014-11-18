@@ -31,8 +31,8 @@ DELETE /todos
 class App(morepath.App):
     pass
 
-app = App(name='Todos')
 config = morepath.setup()
 config.scan()
 config.commit()
 
+app = App()
