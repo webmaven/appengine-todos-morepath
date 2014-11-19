@@ -1,9 +1,9 @@
-from main import App
+from .main import App
 from . import model
 
 @App.path(model=model.Root, path='')
 def get_root():
-    return model.Root
+    return model.Root()
 
 
 @App.path(model=model.TodoList, path='/{todolist}')
