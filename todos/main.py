@@ -2,7 +2,6 @@
 
 # Import the Morepath Framework
 import morepath
-import todos
 
 """Todo Morepath backend demo.
 
@@ -33,7 +32,7 @@ class App(morepath.App):
     pass
 
 config = morepath.setup()
-config.scan(todos)
+config.scan()
 config.commit()
 
 app = App()
