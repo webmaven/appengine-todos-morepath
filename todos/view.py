@@ -19,7 +19,7 @@ def add_todo(self, request):
         response.status_code = 201
     return self.add_todo(request.json['title'])
 
-@App.json(model=modelTodoList, request_method='PUT')
+@App.json(model=model.TodoList, request_method='PUT')
 def archive_todos(self, request):
     return self.update_todo(request.json['id'],
                             request.json['text'],
