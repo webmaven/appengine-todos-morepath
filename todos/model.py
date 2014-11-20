@@ -17,6 +17,8 @@ And a set of common operations for managing them:
 
 from google.appengine.ext import ndb
 
+class Root(object):
+    pass
 
 class Todo(ndb.Model):
     """Todo item model.
